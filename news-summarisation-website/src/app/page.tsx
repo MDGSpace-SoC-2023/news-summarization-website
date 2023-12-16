@@ -1,23 +1,35 @@
 'use client'
+import 'firebase/compat/firestore';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import firebase from "firebase/compat/app"; 
 import { collection, addDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
 
-const firestore = firebase.firestore();
+const firebaseConfig = {
+  apiKey: "AIzaSyCxnVyBmYh37ABMwEoWbnj1hM8UyQ3Da_E",
+  authDomain: "news-summarization-website.firebaseapp.com",
+  projectId: "news-summarization-website",
+  storageBucket: "news-summarization-website.appspot.com",
+  messagingSenderId: "725895260432",
+  appId: "1:725895260432:web:2def6b396d852c82dc9d95"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 export default function LoginPage() {
   const [user, setUser] = useState({ un: '', pw: '' });
-  const router = useRouter();
+  let router = useRouter();
 
   // Function to handle form submission.
   async function submit() {
     if (user.un === "" || user.pw === "") return;
     try {
-      const user = firestore.collection('users').doc();
       await addDoc(collection(db, "users"), { username: user.un, password: user.pw });
       alert("User created successfully!");
-      console.log(`Document added with ID: ${user.id}`);
+      console.log(`Document added`);
       router.push("/");
     } catch (error) {
       alert("Error creating user: " + error.message);
