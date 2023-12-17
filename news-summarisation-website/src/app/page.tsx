@@ -11,7 +11,7 @@ const firebaseConfig = {
   apiKey: "${process.env.FIREBASE_API_KEY}",
   authDomain: "${process.env.REACT_APP_AUTH_DOMAIN}",
   projectId: "news-summarization-website",
-  storageBucket: "news-summarization-website.appspot.com",
+  storageBucket: "$news-summarization-website.appspot.com",
   messagingSenderId: "725895260432",
   appId: "1:725895260432:web:2def6b396d852c82dc9d95"
 };
@@ -28,12 +28,12 @@ export default function LoginPage() {
   async function submit() {
     if (user.un === "" || user.pw === "") return;
     try {
-      await addDoc(collection(db, "users"), { username: user.un, password: user.pw });
+      addDoc(collection(db, "users"), { username: user.un, password: user.pw });
       alert("User created successfully!");
       console.log(`Document added`);
       router.push("/");
     } catch (error) {
-      alert("Error creating user: " + error.message);
+      alert("Error creating user: ");
     }
   }
 
