@@ -21,30 +21,38 @@ export default function SignupPage() {
       });
       alert("User created successfully!");
       console.log(`Document added`);
-      router.push("/");
+      router.push("/login");
     } catch (error) {
       alert("Error creating user: ");
     }
   }
 
   return (
-    <div className="container">
-      <h1>Sign up</h1>
-      <label htmlFor="username">Username: </label>
-      <input type="text" id="username" name="username" value={user.un} onChange={e => setUser(prevState => ({ ...prevState, un: e.target.value }))} /><br/>
-      <label htmlFor="password">Password: </label>
-      <input type="password" name="password" id="password" value={user.pw} onChange={e => setUser(prevState => ({ ...prevState, pw: e.target.value }))} /><br/>
+    <html>
+      <head>
+      </head>
+      <body>
+        <div className="container">
+        <h1>Sign up</h1>
+        <label htmlFor="username">Username: </label>
+        <input type="text" id="username" name="username" value={user.un} onChange={e => setUser(prevState => ({ ...prevState, un: e.target.value }))} /><br/>
+        <label htmlFor="password">Password: </label>
+        <input type="password" name="password" id="password" value={user.pw} onChange={e => setUser(prevState => ({ ...prevState, pw: e.target.value }))} /><br/>
       
-      <label htmlFor="preferences">News Genre: </label>
+        <label htmlFor="preferences">News Genre: </label>
       
-      <select name="pf" id="pf">
-        <option value={user.pf = "not selected"}>Not selected</option>
-        <option value={user.pf = "politics"}>Politics</option>
-        <option value={user.pf = "sports"}>Sports</option>
-        <option value={user.pf = "entertainment"}>Entertainment</option>
-      </select><br/>
+        <select name="pf" id="pf">
+          <option value={user.pf = "not selected"}>Not selected</option>
+          <option value={user.pf = "politics"}>Politics</option>
+          <option value={user.pf = "sports"}>Sports</option>
+          <option value={user.pf = "entertainment"}>Entertainment</option>
+        </select><br/>
       
-      <button onClick={submit}>Sign up</button>
-    </div>
+        <button onClick={submit}>Sign up</button>
+
+        </div>
+      </body>
+    </html>
+    
   );
 }

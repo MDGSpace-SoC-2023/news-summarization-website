@@ -33,7 +33,7 @@ export default function Login() {
      const { user, validated } = await authenticate(un, pw);
      if (validated) {
        alert("login successful");
-       router.push("/");
+       router.push("/home");
      }
   } catch (error) {
      console.error("Error: ", error);
