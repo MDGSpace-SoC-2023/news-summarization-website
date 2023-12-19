@@ -1,12 +1,17 @@
+import firebase from "firebase/compat/app";
+import "firebase/auth"
+import "firebase/firestore"
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { getFirestore } from 'firebase/firestore'
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "${process.env.FIREBASE_API_KEY}",
-  authDomain: "${process.env.REACT_APP_AUTH_DOMAIN}",
+  apiKey: "AIzaSyCxnVyBmYh37ABMwEoWbnj1hM8UyQ3Da_E",
+  authDomain: "news-summarization-website.firebaseapp.com",
   projectId: "news-summarization-website",
   storageBucket: "news-summarization-website.appspot.com",
   messagingSenderId: "725895260432",
@@ -14,5 +19,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
+
 export const db = getFirestore(app);
