@@ -33,7 +33,7 @@ export default function Login() {
      const { user, validated } = await authenticate(un, pw);
      if (validated) {
        alert("login successful");
-       router.push("/");
+       router.push("/home");
      }
   } catch (error) {
      console.error("Error: ", error);
@@ -42,12 +42,13 @@ export default function Login() {
  };
 
  return (
-    <div>
+    <div className='container'>
       <form>
         <h1>Log In</h1>
         <input type="Username" placeholder="Username" onChange={(e) => setUn(e.target.value)} /><br/>
         <input type="password" placeholder="Password" onChange={(e) => setPw(e.target.value)} /><br/>
-        <button type="submit" onClick={login}>Log In</button>
+        <button className="button" type="submit" onClick={login}>Log In</button>
+        <p>Not Registered? <a href="localhost:3000/signup">Create an Account</a></p>
       </form>
     </div>
  );
