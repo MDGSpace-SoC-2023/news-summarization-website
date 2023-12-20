@@ -48,7 +48,7 @@ export default function SignupPage() {
           <option value={user.pf = "entertainment"}>Entertainment</option>
         </select><br/>
       
-        <button onClick={submit}>Sign up</button>
+        <button className="button" onClick={submit}>Sign up</button>
 
         </div>
       </body>

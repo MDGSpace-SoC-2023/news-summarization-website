@@ -5,26 +5,26 @@ import {Card, CardHeader, CardBody, CardFooter} from "@nextui-org/react";
 export default function Home() {
   const [preference, setPreference] = useState('')
   async function submit() {
-    async function Cards() {  
-      let ar = await getArticles(preference);
+    let ar = await getArticles(preference);
       if (!ar || !Array.isArray(ar)) {
         alert("Error fetching data");
         return {};
-        } else{
+      } else{
           return (
-            <Card>
+            <Card className="card">
+              <link rel="styling" type="text/css" href="styles.css"></link>
               <CardBody>
                 <p>{ar[0]}</p>
               </CardBody>
             </Card>
           )
-        };
+      };
         
-    }
+
   } 
 
   return (
-    <div className="container">
+    <div className="containerhome">
       <h1>Welcome to our website!</h1>
       <div>
         Please select your preference:
@@ -34,7 +34,7 @@ export default function Home() {
           <option value={"technology"}>Technology</option>
           <option value={"sports"}>Sports</option>
         </select>
-        <button onSubmit={submit}>Submit</button>
+        <button className="button" onSubmit={submit}>Submit</button>
       </div>
     </div>
   )
