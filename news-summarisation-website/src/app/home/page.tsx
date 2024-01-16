@@ -1,42 +1,57 @@
 "use client"
-import React, { useState } from "react"
-import { getArticles } from '../api/newsapi'
-import {Card, CardHeader, CardBody, CardFooter} from "@nextui-org/react";
-export default function Home() {
-  const [preference, setPreference] = useState('')
-  async function submit() {
-    let ar = await getArticles(preference);
-      if (!ar || !Array.isArray(ar)) {
-        alert("Error fetching data");
-        return {};
-      } else{
-          return (
-            <Card className="card">
-              <link rel="styling" type="text/css" href="styles.css"></link>
-              <CardBody>
-                <p>{ar[0]}</p>
-              </CardBody>
-            </Card>
-          )
-      };
-        
+import React from "react"
 
-  } 
+import {Card, CardHeader, CardBody, CardFooter, input} from "@nextui-org/react";
+//import '../newsapi'
+import axios from 'axios';
+import { useState } from 'react';
+import * as xml2js from 'xml2js';
+import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { useRouter } from "next/router";
+
+  
+export default function Home() {
+  async function getFirstArticleText(query: string) {
+    try {
+      const response = await axios.get(`https://news.google.com/rss/search?q=${query}`);
+      const result = await xml2js.parseStringPromise(response.data);
+      const articles = result.rss.channel[0].item;
+      if (articles && articles.length > 0) {
+        return articles[0].description[0];
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  };
+  
+  function card() {
+    return(
+      <div id='cards'>
+        <Card>{getFirstArticleText(preference)}</Card>
+      </div>
+    )
+  }
+  const [preference, setPreference] = useState('')
+
+
+  
+  async function submit() {
+    let query = document.getElementById("inputField") as HTMLInputElement;
+    useRouter().push('../summarised')
+  }
+    
 
   return (
     <div className="containerhome">
       <h1>Welcome to our website!</h1>
-      <div>
+        <form>
         Please select your preference:
-        <select value={preference} onChange={(e) => setPreference(e.target.value)}>
-          <option value={"null"}>Not Selected</option>
-          <option value={"politics"}>Politics</option>
-          <option value={"technology"}>Technology</option>
-          <option value={"sports"}>Sports</option>
-        </select>
+        <input type="preference" placeholder="please enter your preference" onChange={(e) => setPreference(e.target.value)}/> <br/>
         <button className="button" onSubmit={submit}>Submit</button>
-      </div>
+        </form>
     </div>
   )
+}
 
-} 
