@@ -1,7 +1,7 @@
 body {
     padding: 0;
     margin: 0;
-    background: url(./images/background.jpg)no-repeat;
+    background-color: antiquewhite;
     background-size: cover;
     align-items: center;
 }
@@ -10,16 +10,17 @@ body {
     display: inline-block;
     z-index: 1;
     background-color: azure;
-    border: solid black;
+    border: beige;
     border-radius: 10px;
     align-content: center; 
     align-self: center;
-    size: 1000px 1000px;
-    margin: 250px 500px 100px;
-    padding: 30px 30px;
-    line-height: 25px;
-
-
+    size: 2000px 2000px;
+    margin: 220px 520px;
+    padding: 50px 50px;
+    line-height: 35px;
+    box-shadow: 1px black;
+    text-align: center;
+    
 }
 .containerhome {
     position: relative;
@@ -34,7 +35,7 @@ body {
     margin-top: 300px;
     padding: 30px 30px;
     line-height: 25px;
-
+    box-shadow: inset;
 
 }
 
@@ -48,4 +49,11 @@ body {
     margin-top: 10px;
     margin-left: 85px;
     background-color: aliceblue;
+}
+
+.dropdown {
+    border-radius: 1px;
+    overflow: hidden;
+    background-color: azure;
+
 }

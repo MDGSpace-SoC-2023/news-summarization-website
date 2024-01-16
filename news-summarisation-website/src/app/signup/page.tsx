@@ -41,7 +41,7 @@ export default function SignupPage() {
       
         <label htmlFor="preferences">News Genre: </label>
       
-        <select name="pf" id="pf">
+        <select name="pf" id="pf" className='dropdown'>
           <option value={user.pf = "not selected"}>Not selected</option>
           <option value={user.pf = "politics"}>Politics</option>
           <option value={user.pf = "sports"}>Sports</option>

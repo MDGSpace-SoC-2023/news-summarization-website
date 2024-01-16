@@ -10,7 +10,7 @@ export default function Login() {
 
  const login = async () => {
   
-  async function authenticate(u, p) {
+  async function authenticate(u: 'string', p: 'string') {
      try {
        const docRef = doc(collection(db, "users"), u);
        const userSnapshot = await getDoc(docRef);
@@ -33,7 +33,7 @@ export default function Login() {
      const { user, validated } = await authenticate(un, pw);
      if (validated) {
        alert("login successful");
-       router.push("/home");
+       router.push("../home");
      }
   } catch (error) {
      console.error("Error: ", error);
