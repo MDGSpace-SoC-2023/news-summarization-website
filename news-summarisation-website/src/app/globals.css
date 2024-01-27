@@ -4,6 +4,8 @@ body {
     background-color: antiquewhite;
     background-size: cover;
     align-items: center;
+    display: flex;
+    align-items: center;
 }
 .container {
     position: relative;
@@ -14,13 +16,12 @@ body {
     border-radius: 10px;
     align-content: center; 
     align-self: center;
-    size: 2000px 2000px;
-    margin: 220px 520px;
+    margin: 220px auto;
     padding: 50px 50px;
     line-height: 35px;
-    box-shadow: 1px black;
+    box-shadow: 12px black;
     text-align: center;
-    
+
 }
 .containerhome {
     position: relative;
@@ -32,7 +33,7 @@ body {
     align-content: center; 
     align-self: center;
     margin-left: 400px;
-    margin-top: 300px;
+    margin-top: 100px;
     padding: 30px 30px;
     line-height: 25px;
     box-shadow: inset;
