@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import React from "react"
 
 import {Card, CardHeader, CardBody, CardFooter, input} from "@nextui-org/react";
@@ -10,9 +10,9 @@ import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useRouter } from "next/router";
 
-import openai_secret_manager from 'openai';
 
 
+/*
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -56,12 +56,14 @@ export default function Home() {
         console.error(error);
       }
       return null;
+
     };
     getFirstArticleText(preference);
 
     setLoading(true);
     e.preventDefault();
     openai
+    
   };
 
   function generatePrompt(text: string) {
@@ -78,5 +80,35 @@ export default function Home() {
       <Card>{summarizedtext}</Card>
     </div>
   )
+}*/
+// src/App.js
+import { getNews } from '../newsService';
+
+import NewsList from '../NewsItem';
+
+function App() {
+  const [text, setText] = useState("");
+  const [summarizedtext, setsummarizedtext] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [preference, setPreference] = useState('')
+  const [inputText, setInputText] = useState('');
+  const [summary, setSummary] = useState('');
+  const topics = ['Politics', 'Sports', 'General'];
+  const [selectedTopic,  setSelectedTopic] = useState('');
+  function HandleSubmit() {
+
+  }
+  return (
+    <div className="containerhome">
+      <select value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}>
+        {topics.map((topic) => (
+          <option key={topic}>{topic}</option>
+        ))} select category:
+      </select>
+      <NewsList topic={selectedTopic} />
+    </div>
+  );
 }
+
+export default App;
 
