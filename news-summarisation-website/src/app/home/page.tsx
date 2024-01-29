@@ -1,3 +1,9 @@
+'use client'
+import React, { useState } from 'react';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import axios from 'axios';
+
+
 /*'use client'
 import React from "react"
 
@@ -111,10 +117,9 @@ function App() {
 }
 
 export default App;*/
-'use client'
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useVertexAI } from '@google-cloud/vertexai-react'; // For Generative AI access
+
+import { useEffect } from 'react';
+
 
 
 function HomePage() {
@@ -122,6 +127,7 @@ function HomePage() {
   const [newsArticles, setNewsArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [generatedText, setGeneratedText] = useState('');
 
   const fetchNews = async () => {
     setIsLoading(true);
@@ -129,7 +135,7 @@ function HomePage() {
 
     try {
       const apiKey = '8efeb6c34f034321b55f068b77649f7f'; 
-      const response = await axios.get(`https://newsapi.org/v2/top-headlines?category=${selectedGenre}&apiKey=${apiKey}`);
+      const response = await axios.get(`https://newsapi.org/v2/top-headlines?category=${selectedGenre}&country=us&lang=en&apiKey=${apiKey}`);
       setNewsArticles(response.data.articles);
     } catch (error) {
       setError(error);
@@ -137,45 +143,40 @@ function HomePage() {
       setIsLoading(false);
     }
   };
-  const generativeModel = useVertexAI({
-    projectId: 'news summarisatiom',
-    location: 'INDIA', // Replace with your region
-    endpoint: 'AIzaSyDneekIqPvD9lSWdQVO3tphGj9l2yjVRCw', // Replace with your endpoint name
-    model: 'GEN_MODEL_NAME', // Replace with your model name
-  }); // For example, 'projects/{project_id}/locations/{region}/models/{model_name}'
+      const API_KEY = 'AIzaSyDneekIqPvD9lSWdQVO3tphGj9l2yjVRCw';
+      const genAI = new GoogleGenerativeAI(API_KEY);
+    const summarizeArticle = (article) => {
+      try {
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const result = model.generateContent(`Tell me more abt this in a summarized format:\n${article.title}\n${article.description}`);
+        const response = result.response;
+        const text = response.text();
+        console.log(text)
+        setGeneratedText(text);
+      } catch (error) {
+        console.error("Error generating text:", error);
+      }
+    };
+    let article = newsArticles[0];
+    
+
   
-  const summarizeArticle = async (article) => {
-    const geminiApiKey = 'AIzaSyD03JSM8hXl4XrU8kFqJwOIswRPfXxfWzc'; 
-    const response = await axios.post('https://api.gemi.ai/v1/docs', {
-      prompt: `Tell me more abt this in a ssummarized format:\n${article.title}\n${article.description}`,
-      max_tokens: 1000,  
-      temperature: 0.7, 
-    }, {
-      headers: {
-        'Authorization': `Bearer ${geminiApiKey}`,
-      },
-    });
-
-    const summary = response.data.data.text;
-    return summary;
-  };
-
   useEffect(() => {
     if (selectedGenre) {
       fetchNews();
+      article = newsArticles[0];
+      summarizeArticle(article);
     }
-  }, [selectedGenre]);
+  }, [selectedGenre, newsArticles]);
 
   return (
     <div className='containerhome'>
-      {/* Genre selection */}
       <select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)} className='containerhome'>
         <option value="">Not selected</option>
         <option value="business">Business</option>
         <option value="entertainment">Entertainment</option>
         <option value="sports">Sports</option>
         <option value="technology">Technology</option>
-        {/* Add more genres as needed */}
       </select>
 
       {isLoading && <p>Loading news...</p>}
@@ -188,7 +189,8 @@ function HomePage() {
               <h2>{article.title}</h2>
               <p>{article.description}</p>
               <p>
-                <strong>Summary:</strong> {summarizeArticle(article)}
+                <strong>Summary:</strong> 
+                { generatedText }
               </p>
             </div>
           ))}
