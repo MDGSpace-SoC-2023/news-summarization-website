@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from 'axios';
 import { useEffect } from 'react';
-
+import openai from 'openai';
 
 
 function HomePage() {
@@ -11,8 +11,7 @@ function HomePage() {
   const [newsArticles, setNewsArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [generatedText, setGeneratedText] = useState([]);
-
+  const [summarisedNews, setSummarisedNews] = useState([]);
   const fetchNews = async () => {
     setIsLoading(true);
     setError(null);
@@ -32,16 +31,28 @@ function HomePage() {
     const summarizeArticle = (article) => {
       try {
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-        const result = model.generateContent(`Tell me more abt this in a summarized format:\n${article.title}\n${article.description}`);
+        const result = model.generateContent(`Tell me more abt this in a summarized format:\n${article.title}`);
         const response = result.response;
         const text = response.text();
         console.log(text)
-        setGeneratedText(text);
+        setSummarisedNews(text);
       } catch (error) {
         console.error("Error generating text:", error);
       }
     };
- 
+      /*const summarizeText = async (text) => {
+        const response = await openai.createCompletion({
+          engine: 'text-davinci-002',
+          prompt: `Please tell me more about the following text in a summarized manner: ${text}`,
+          max_tokens: 1024,
+          n: 1,
+          stop: ['\n'],
+        });
+    
+        const summary = response.choices[0].text.trim();
+        setSummarisedNews(summary);
+      };*/
+      
   useEffect(() => {
     if (selectedGenre) {
       fetchNews();
@@ -70,7 +81,7 @@ function HomePage() {
               <p>{article.description}</p>
               <p>
                 <strong>Summary:</strong> 
-                { generatedText.map((article) => article) }
+                { summarisedNews }
               </p>
             </div>
           ))}
